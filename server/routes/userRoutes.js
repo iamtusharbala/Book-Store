@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../model/user')
+const bcrypt = require('bcrypt')
 
 
 // Register a new user
@@ -12,6 +13,10 @@ router.post('/register', async (req, res) => {
             email,
             password
         })
+        // Password Hashing
+        const salt = bcrypt.genSaltSync(10);
+        newUser.password = bcrypt.hashSync(password, salt);
+
         await newUser.save()
         res.status(201).json({ message: 'New user created successfully', user: newUser })
     } catch (error) {
@@ -28,7 +33,8 @@ router.post('/login', async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' })
         }
-        if (password !== user.password) {
+        const checkPassword = bcrypt.compareSync(password, user.password);
+        if (!checkPassword) {
             return res.status(404).json({ message: 'Incorrect password' })
         }
         return res.status(200).json({ message: 'Logged In successfully' })
