@@ -3,11 +3,14 @@ const app = express()
 const userRoutes = require('./routes/userRoutes')
 const bookRoutes = require('./routes/bookRoutes');
 const connectDB = require('./connect');
+const cors = require('cors')
 
 
 const PORT = 3000;
 app.use(express.json())
 
+// Cross orgin resource sharing
+app.use(cors())
 
 // Connect to Database
 connectDB()
