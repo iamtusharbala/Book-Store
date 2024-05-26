@@ -3,7 +3,8 @@ const app = express()
 const userRoutes = require('./routes/userRoutes')
 const bookRoutes = require('./routes/bookRoutes');
 const connectDB = require('./connect');
-const cors = require('cors')
+const cors = require('cors');
+const isAuth = require('./middleware/isAuth');
 
 
 const PORT = 3000;
@@ -20,7 +21,7 @@ app.get('/', (req, res) => {
 })
 
 
-
+app.use(isAuth)
 
 app.use('/api/auth', userRoutes)
 app.use('/api/books', bookRoutes)

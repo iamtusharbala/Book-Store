@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 // Adding Books
 router.post('/', async (req, res) => {
     try {
-        const { title, price, author, genre, description, coverImage } = req.body
+        const { title, price, author, genre, description, coverImage } = req.body.data
         const newBook = new Book({
             title,
             author,
